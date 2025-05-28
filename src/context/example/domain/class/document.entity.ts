@@ -4,7 +4,7 @@ export class Document {
     readonly number: string,
     readonly description: string,
     readonly date: Date,
-    readonly documentType: string,
+    readonly obligationType: string,
     readonly createdAt: string,
     readonly updatedAt: string,
   ) {}

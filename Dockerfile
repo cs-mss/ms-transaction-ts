@@ -2,13 +2,13 @@ FROM node:23.3.0
 
 WORKDIR /app
 
-COPY ms-transaction-doc/package*.json ./
+COPY package*.json ./
 RUN npm install
 
-COPY ms-transaction-doc/ ./
+COPY . .
 
 RUN npm run build
 
-EXPOSE 3002
+EXPOSE ${PORT}
 
 CMD ["npm", "run", "start"]

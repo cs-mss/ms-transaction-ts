@@ -1,14 +1,14 @@
 services:
-  app:
+  ms-transaction-tes:
     build:
       context: .
-      dockerfile: ./compose/local/Dockerfile
-    container_name: ms-transaction-doc
+      dockerfile: Dockerfile
+    container_name: ms-transaction-tes
     volumes:
       - ./:/app
       - /app/node_modules
     ports:
-      - '${PORT}:3002'
+      - '${PORT}:3003'
     env_file:
       - .env
     networks:

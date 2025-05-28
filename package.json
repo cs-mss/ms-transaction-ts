@@ -1,7 +1,7 @@
 {
-  "name": "hex-ddd-template",
+  "name": "ms-transaction-tes",
   "version": "0.0.1",
-  "description": "Template for microservices using Hexagonal Architecture and DDD",
+  "description": "microservices using Hexagonal Architecture and DDD",
   "author": "",
   "private": true,
   "license": "UNLICENSED",

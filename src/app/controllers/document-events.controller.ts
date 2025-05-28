@@ -7,20 +7,21 @@ import { DocumentEvent } from '../types/document-event.types';
 export class DocumentEventsController {
   constructor(private readonly documentService: DocumentService) {}
 
-  @MessagePattern('document-created')
+  @MessagePattern('order-created')
   async handleDocumentCreated(@Payload() message: string) {
-    console.log('Document Created Event');
+    console.log('Order Created Event');
     console.log('Raw message:', message);
 
     try {
       const { value } = JSON.parse(JSON.stringify(message)) as DocumentEvent;
       return await this.documentService.create({
         ...value.payload,
-        documentType: value.documentType,
+        obligationType: value.documentType,
+        orderId: value.payload.id,
       });
     } catch (error) {
-      console.error('Error processing document created event:', error);
-      throw new Error('Failed to process document created event');
+      console.error('Error processing order created event:', error);
+      throw new Error('Failed to process order created event');
     }
   }
 }

@@ -1,4 +1,10 @@
-import { IsDateString, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsDateString,
+  IsNotEmpty,
+  IsNumber,
+  IsPositive,
+  IsString,
+} from 'class-validator';
 
 /**
  * DTO para la creación de un Document
@@ -20,5 +26,13 @@ export class CreateDocumentDto {
 
   @IsString()
   @IsNotEmpty()
-  documentType: string;
+  obligationType: string;
+
+  @IsNumber()
+  @IsPositive()
+  orderId: number;
+}
+
+export class DocumentDto extends CreateDocumentDto {
+  id: number;
 }

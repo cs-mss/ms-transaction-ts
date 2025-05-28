@@ -52,7 +52,7 @@ export default class DocumentService {
       dto.number,
       dto.description,
       dto.date,
-      dto.documentType,
+      dto.obligationType,
       emptyString(),
       emptyString(),
     );

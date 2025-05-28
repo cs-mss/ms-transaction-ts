@@ -1,12 +1,7 @@
-export interface DocumentPayload {
-  number: string;
-  description: string;
-  date: Date;
-  documentType: string;
-}
+import { DocumentDto } from '@context/example/infrastructure/dto/create-document.dto';
 
 export interface DocumentEventValue {
-  payload: DocumentPayload;
+  payload: DocumentDto;
   documentType: string;
 }
 
