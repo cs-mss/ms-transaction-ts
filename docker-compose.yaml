@@ -1,0 +1,19 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./compose/local/Dockerfile
+    container_name: ms-transaction-doc
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    ports:
+      - '${PORT}:3002'
+    env_file:
+      - .env
+    networks:
+      - shared-network-ms
+
+networks:
+  shared-network-ms:
+    external: true
