@@ -3,15 +3,21 @@ import {
   Inject,
   Injectable,
   NotFoundException,
+  InternalServerErrorException,
 } from '@nestjs/common';
 
 import { emptyNumber, emptyString } from '@context/shared/utils/empty.utils';
 import { CreateDocumentPort } from '@context/example/application/ports/create-document.port';
 import { FindAllDocumentsPort } from '@context/example/application/ports/find-all-documents.port';
 import { FindDocumentPort } from '@context/example/application/ports/find-document.port';
+import { UpdateDocumentStatusPort } from '@context/example/application/ports/update-document-status.port';
 import { USE_CASE_TOKENS } from '@context/example/application/ports/use-case.tokens';
 import { CreateDocumentDto } from '../dto/create-document.dto';
-import { Document } from '@context/example/domain/class/document.entity';
+import {
+  Document,
+  DocumentStatus,
+} from '@context/example/domain/class/document.entity';
+import { DocumentNotFoundError } from '@context/example/domain/errors/document-not-found.error';
 
 @Injectable()
 export default class DocumentService {
@@ -22,14 +28,19 @@ export default class DocumentService {
     private readonly getDocument: FindDocumentPort,
     @Inject(USE_CASE_TOKENS.FIND_ALL_DOCUMENTS_USE_CASE)
     private readonly getAllDocuments: FindAllDocumentsPort,
+    @Inject(USE_CASE_TOKENS.UPDATE_DOCUMENT_STATUS_USE_CASE)
+    private readonly updateDocumentStatus: UpdateDocumentStatusPort,
   ) {}
 
   async findById(documentId: number) {
-    const document = await this.getDocument.execute(documentId);
-    if (!document) {
-      throw new NotFoundException(`Document not found with id: ${documentId}`);
+    try {
+      return await this.getDocument.execute(documentId);
+    } catch (error) {
+      if (error instanceof DocumentNotFoundError) {
+        throw new NotFoundException(error.message);
+      }
+      throw new InternalServerErrorException('Error finding document');
     }
-    return document;
   }
 
   async create(dto: CreateDocumentDto) {
@@ -46,6 +57,17 @@ export default class DocumentService {
     return await this.getAllDocuments.execute();
   }
 
+  async updateStatus(documentId: number, status: DocumentStatus) {
+    try {
+      return await this.updateDocumentStatus.execute(documentId, status);
+    } catch (error) {
+      if (error instanceof DocumentNotFoundError) {
+        throw new NotFoundException(error.message);
+      }
+      throw new InternalServerErrorException('Error updating document status');
+    }
+  }
+
   private dtoToDomain(dto: CreateDocumentDto) {
     return new Document(
       emptyNumber(),
@@ -53,6 +75,8 @@ export default class DocumentService {
       dto.description,
       dto.date,
       dto.obligationType,
+      dto.orderId,
+      'CREATED',
       emptyString(),
       emptyString(),
     );

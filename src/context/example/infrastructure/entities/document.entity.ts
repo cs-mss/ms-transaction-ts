@@ -5,7 +5,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Document } from '../../domain/class/document.entity';
+import { Document, DocumentStatus } from '../../domain/class/document.entity';
 
 @Entity('obligacion')
 export class DocumentEntity {
@@ -27,6 +27,9 @@ export class DocumentEntity {
   @Column({ nullable: false })
   orderId: number;
 
+  @Column({ default: 'CREATED' })
+  status: DocumentStatus;
+
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: string;
 
@@ -42,6 +45,8 @@ export class DocumentEntity {
       this.description,
       this.date,
       this.obligationType,
+      this.orderId,
+      this.status,
       this.createdAt,
       this.updatedAt,
     );
@@ -54,6 +59,8 @@ export class DocumentEntity {
     documentEntity.date = document.date;
     documentEntity.description = document.description;
     documentEntity.obligationType = document.obligationType;
+    documentEntity.orderId = document.orderId;
+    documentEntity.status = document.status;
     return documentEntity;
   }
 }

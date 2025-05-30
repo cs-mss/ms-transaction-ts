@@ -16,7 +16,7 @@ export class DocumentEventsController {
       const { value } = JSON.parse(JSON.stringify(message)) as DocumentEvent;
       return await this.documentService.create({
         ...value.payload,
-        obligationType: value.documentType,
+        obligationType: 'order',
         orderId: value.payload.id,
       });
     } catch (error) {

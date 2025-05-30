@@ -6,4 +6,5 @@ export const USE_CASE_TOKENS = {
   FIND_DOCUMENT_USE_CASE: 'FindDocumentUseCase',
   FIND_ALL_DOCUMENTS_USE_CASE: 'FindAllDocumentsUseCase',
   CREATE_DOCUMENT_USE_CASE: 'CreateDocumentUseCase',
+  UPDATE_DOCUMENT_STATUS_USE_CASE: 'UpdateDocumentStatusUseCase',
 };
